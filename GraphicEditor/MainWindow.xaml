@@ -1,0 +1,39 @@
+﻿<Window x:Class="GraphicEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GraphicEditor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="650">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="openFile" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Content="Open file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Click="HandleButton_OpenFile"/>
+        
+        <Label Content="R:" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Margin="4"/>
+        <TextBox x:Name="RBox" HorizontalAlignment="Center"  Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Margin="4"/>
+
+        <Label Content="G:" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Margin="4"/>
+        <TextBox x:Name="GBox" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Margin="4"/>
+
+        <Label Content="B:" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Margin="4"/>
+        <TextBox x:Name="BBox" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Margin="4"/>
+
+        <Button x:Name="updatePixel" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="1" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="12,2,12,2"/>
+
+        <Image x:Name="image" HorizontalAlignment="Center" Grid.Row="0" Grid.RowSpan="6" Grid.Column="2" VerticalAlignment="Center" Margin="12" MouseUp="HandleImage_MouseUp"/>
+    </Grid>
+</Window>
