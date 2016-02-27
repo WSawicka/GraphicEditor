@@ -56,7 +56,7 @@ namespace GraphicEditor
             imageDisplayed.SetPixel((int)point.X, (int)point.Y, Color.FromArgb(color.A, color.R, color.G, color.B));
             image.Source = null;
             // TODO: repaint image to show changes
-            //image.Source = (BitmapImage) image;
+            // image.Source = (BitmapImage) imageDisplayed;
         }
     }
 }
