@@ -33,9 +33,10 @@
         <Button x:Name="openFile"  Content="Open file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Click="HandleButton_OpenFile"/>
         <Button x:Name="saveFile"  Content="Save file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Margin="3" Width="62" Click="saveFile_Click"/>
         </StackPanel>
-        
-        
-        
+
+
+        <Label Content="X:" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top"/>
+        <Label Content="Y:" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"/>
         <Label x:Name="positionX" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="4"/>
         <Label x:Name="positionY" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Margin="4"/>
 
@@ -49,10 +50,9 @@
         <TextBox x:Name="BBox" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Margin="4"/>
 
         <Button x:Name="updatePixel" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="12,2,12,2" Click="HandleButton_Save"/>
+        <Image x:Name="image"  Grid.Row="0" Grid.RowSpan="6" Grid.Column="2" MouseUp="HandleImage_MouseUp"/>
 
-        <Image x:Name="image" HorizontalAlignment="Center" Grid.Row="0" Grid.RowSpan="6" Grid.Column="2" VerticalAlignment="Center" Margin="12" MouseUp="HandleImage_MouseUp"/>
-
-        <TextBox  Margin="3" Text="wpisz X" x:Name="xPixel"  Grid.Row="7" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
+            <TextBox  Margin="3" Text="wpisz X" x:Name="xPixel"  Grid.Row="7" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
         <TextBox   Margin="3" Text="wpisz Y"  x:Name="yPixel" Grid.Row="8" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
         <Button Margin="3" x:Name="getPixel" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="2" Content="Pobierz  &#xa;wartości  &#xa;pixeli" HorizontalAlignment="Center" VerticalAlignment="Top"  IsDefault="True"   Width="62" Click="getPixel_Click" />
     

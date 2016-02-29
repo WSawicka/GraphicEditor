@@ -30,11 +30,12 @@ namespace GraphicEditor
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.FilterIndex = 1;
             //openFileDialog.InitialDirectory = @"C:\Users\mloda\Desktop";
-            openFileDialog.Filter = "Image File|*.jpg; *.jpeg; *.tiff; *.gif; *.png;";
+            openFileDialog.Filter = "Image File|*.jpg; *.jpeg; *.tiff; *.gif; *.png; *.bmp";
             bool? userClickedOK = openFileDialog.ShowDialog();
             if (userClickedOK == true)
             {
                 image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
+                image.Stretch = System.Windows.Media.Stretch.None;
                 imageDisplayed = new Bitmap(openFileDialog.FileName);
             }
         }
@@ -93,7 +94,7 @@ namespace GraphicEditor
             //}
 
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif";
+            saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif|TIFF|*.tiff";
             saveFileDialog1.Title = "Save an Image File";
             saveFileDialog1.ShowDialog();
 
@@ -122,6 +123,11 @@ namespace GraphicEditor
                         imageDisplayed.Save(fs,
                            System.Drawing.Imaging.ImageFormat.Gif);
                         break;
+                    case 4:
+                        imageDisplayed.Save(fs,
+                           System.Drawing.Imaging.ImageFormat.Tiff);
+                        break;
+
                 }
 
                 fs.Close();
