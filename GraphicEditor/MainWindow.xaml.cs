@@ -13,6 +13,7 @@ namespace GraphicEditor
         private Bitmap imageDisplayed = null;
         private Color color;
         private System.Windows.Point point;
+        int dept;
 
         public MainWindow()
         {
@@ -37,6 +38,9 @@ namespace GraphicEditor
                 image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
                 image.Stretch = System.Windows.Media.Stretch.None;
                 imageDisplayed = new Bitmap(openFileDialog.FileName);
+               dept = Image.GetPixelFormatSize(imageDisplayed.PixelFormat);
+
+               
             }
         }
 
@@ -104,28 +108,55 @@ namespace GraphicEditor
                 // Saves the Image via a FileStream created by the OpenFile method.
                 System.IO.FileStream fs =
                    (System.IO.FileStream)saveFileDialog1.OpenFile();
+               PixelFormat test = imageDisplayed.PixelFormat;
+
+               Encoder myEncoder;
+               ImageCodecInfo myImageCodecInfo;
+               EncoderParameter myEncoderParameter;
+               EncoderParameters myEncoderParameters;
+               myEncoder = Encoder.ColorDepth;
+
+           
+               myEncoderParameters = new EncoderParameters(1);
+               myEncoderParameter =  new EncoderParameter(myEncoder, dept);
+
+               myEncoderParameters.Param[0] = myEncoderParameter;
+
+          
+
+               var encode = new EncoderParameter(Encoder.ColorDepth, 24);
+
                 // Saves the Image in the appropriate ImageFormat based upon the
                 // File type selected in the dialog box.
                 // NOTE that the FilterIndex property is one-based.
                 switch (saveFileDialog1.FilterIndex)
                 {
+                      
                     case 1:
-                        imageDisplayed.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Jpeg);
+                         myImageCodecInfo = GetEncoderInfo("image/jpeg");                      
+                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
                         break;
 
                     case 2:
-                        imageDisplayed.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Bmp);
+                   
+
+                          myImageCodecInfo = GetEncoderInfo("image/bmp");                      
+                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
+
                         break;
 
                     case 3:
-                        imageDisplayed.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Gif);
+                 
+
+                          myImageCodecInfo = GetEncoderInfo("image/gif");                      
+                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
+
                         break;
                     case 4:
-                        imageDisplayed.Save(fs,
-                           System.Drawing.Imaging.ImageFormat.Tiff);
+               
+                          myImageCodecInfo = GetEncoderInfo("image/tiff");                      
+                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
+
                         break;
 
                 }
@@ -133,6 +164,20 @@ namespace GraphicEditor
                 fs.Close();
             }
         }
+
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType)
+                    return encoders[j];
+            }
+            return null;
+        }
+
 
         private void getPixel_Click(object sender, RoutedEventArgs e)
         {
