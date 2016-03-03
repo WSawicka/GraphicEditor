@@ -19,6 +19,7 @@ namespace GraphicEditor
         {
             InitializeComponent();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+         
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -197,6 +198,37 @@ namespace GraphicEditor
                 }
                 catch (Exception r) { MessageBox.Show(r.Message);  }
                
+            }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            HistogramLibrary srv = new HistogramLibrary();
+            srv.CreateHistogram(imageDisplayed);
+            MessageBox.Show("Zakończono kreowanie histogramów!");
+        }
+
+        private void Przyciemnij_Click(object sender, RoutedEventArgs e)
+        {
+            getOneValueWindow wi = new getOneValueWindow();
+
+            if(wi.ShowDialog().Value)
+            {
+                MessageBox.Show(wi._value.ToString());
+            }
+
+
+
+
+        }
+
+        private void Rozjaśnij_Click(object sender, RoutedEventArgs e)
+        {
+            getOneValueWindow wi = new getOneValueWindow();
+
+            if (wi.ShowDialog().Value)
+            {
+                MessageBox.Show(wi._value.ToString());
             }
         }
 

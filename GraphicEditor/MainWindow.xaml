@@ -32,6 +32,14 @@
         <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0">
         <Button x:Name="openFile"  Content="Open file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Click="HandleButton_OpenFile"/>
         <Button x:Name="saveFile"  Content="Save file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Margin="3" Width="62" Click="saveFile_Click"/>
+            <Menu>
+                <MenuItem Header="Zadanie2">
+                    <MenuItem Header="Stworz Histogramy" Click="MenuItem_Click"></MenuItem>
+                    <MenuItem Header="Przyciemnij" Name="Przyciemnij" Click="Przyciemnij_Click" ></MenuItem>
+                    <MenuItem Header="Rozjaśnij" Name="Rozjaśnij" Click="Rozjaśnij_Click" ></MenuItem>
+                </MenuItem>
+            </Menu>
+        
         </StackPanel>
 
 
