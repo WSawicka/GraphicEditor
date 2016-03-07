@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,9 +128,43 @@ namespace GraphicEditor
         }
 
 
-        private void Rozjasnij(Bitmap bmp)
+        public Bitmap Rozjasnij(Bitmap bmp, int val)
         {
-         
+
+            byte[] LUT = new byte[256];
+
+            for (int i = 0; i < 256; i++)
+            {
+
+                     if ((val + i) > 255)
+                    {
+                        LUT[i] = 255;
+                    }
+                    else if ((val + i) < 0)
+                    {
+                        LUT[i] = 0;
+                    }
+                    else
+                    {
+                        LUT[i] = (byte)(val + i);
+                    }
+                  
+            }
+
+            //Pobierz wartosc wszystkich punktow obrazu
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+            byte[] pixelValues = new byte[Math.Abs(bmpData.Stride) * bmp.Height];
+            System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, pixelValues, 0, pixelValues.Length);
+
+            //Zmien jasnosc kazdego punktu zgodnie z tablica LUT
+            for (int i = 0; i < pixelValues.Length; i++)
+            {
+                pixelValues[i] = LUT[pixelValues[i]];
+            }
+
+            System.Runtime.InteropServices.Marshal.Copy(pixelValues, 0, bmpData.Scan0, pixelValues.Length);
+            bmp.UnlockBits(bmpData);
+            return bmp;
 
         }
 

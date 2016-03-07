@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -39,7 +40,7 @@ namespace GraphicEditor
                 image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
                 image.Stretch = System.Windows.Media.Stretch.None;
                 imageDisplayed = new Bitmap(openFileDialog.FileName);
-               dept = Image.GetPixelFormatSize(imageDisplayed.PixelFormat);
+                dept = Image.GetPixelFormatSize(imageDisplayed.PixelFormat);
 
                
             }
@@ -212,9 +213,11 @@ namespace GraphicEditor
         {
             getOneValueWindow wi = new getOneValueWindow();
 
-            if(wi.ShowDialog().Value)
+            if (wi.ShowDialog().Value)
             {
-                MessageBox.Show(wi._value.ToString());
+                HistogramLibrary srv = new HistogramLibrary();
+                image.Source = BitmapToImageSource(srv.Rozjasnij(imageDisplayed, -1* wi._value));
+
             }
 
 
@@ -228,9 +231,28 @@ namespace GraphicEditor
 
             if (wi.ShowDialog().Value)
             {
-                MessageBox.Show(wi._value.ToString());
+                HistogramLibrary srv = new HistogramLibrary();
+                image.Source = BitmapToImageSource(srv.Rozjasnij(imageDisplayed, wi._value));
+              
             }
         }
+
+        BitmapImage BitmapToImageSource(Bitmap bitmap)
+        {
+            using (MemoryStream memory = new MemoryStream())
+            {
+                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                memory.Position = 0;
+                BitmapImage bitmapimage = new BitmapImage();
+                bitmapimage.BeginInit();
+                bitmapimage.StreamSource = memory;
+                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapimage.EndInit();
+
+                return bitmapimage;
+            }
+        }
+
 
     }
 }
