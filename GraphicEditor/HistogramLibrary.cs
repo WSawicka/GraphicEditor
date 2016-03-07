@@ -22,7 +22,7 @@ namespace GraphicEditor
 
 
 
-        private void createRHistogram(Bitmap bmp)
+        private int[] createRHistogram(Bitmap bmp)
         {
 
             int[] histogram_r = new int[256];
@@ -54,10 +54,11 @@ namespace GraphicEditor
                 }
             }
             img.Save(@"R.jpg");
+            return histogram_r;
 
         }
 
-        private void createGHistogram(Bitmap bmp)
+        private int[] createGHistogram(Bitmap bmp)
         {
 
             int[] histogram_g = new int[256];
@@ -89,10 +90,11 @@ namespace GraphicEditor
                 }
             }
             img.Save(@"G.jpg");
+            return histogram_g;
 
         }
 
-        private void createBHistogram(Bitmap bmp)
+        private int[] createBHistogram(Bitmap bmp)
         {
 
             int[] histogram_b = new int[256];
@@ -124,6 +126,7 @@ namespace GraphicEditor
                 }
             }
             img.Save(@"B.jpg");
+            return histogram_b;
 
         }
 
@@ -166,6 +169,46 @@ namespace GraphicEditor
             bmp.UnlockBits(bmpData);
             return bmp;
 
+        }
+
+        public Bitmap histogramEqualization(Bitmap sourceImage)
+        {
+            Bitmap renderedImage = sourceImage;
+
+            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
+            decimal Const = 255 / (decimal)pixels;
+
+            int x, y, R, G, B;
+
+          
+            //Create histogram arrays for R,G,B channels
+            int[] cdfR = createRHistogram(sourceImage);
+            int[] cdfG = createGHistogram(sourceImage);
+            int[] cdfB = createBHistogram(sourceImage);
+
+            //Convert arrays to cumulative distribution frequency data
+            for (int r = 1; r <= 255; r++)
+            {
+                cdfR[r] = cdfR[r] + cdfR[r - 1];
+                cdfG[r] = cdfG[r] + cdfG[r - 1];
+                cdfB[r] = cdfB[r] + cdfB[r - 1];
+            }
+
+            for (y = 0; y < renderedImage.Height; y++)
+            {
+                for (x = 0; x < renderedImage.Width; x++)
+                {
+                    Color pixelColor = renderedImage.GetPixel(x, y);
+
+                    R = (int)((decimal)cdfR[pixelColor.R] * Const);
+                    G = (int)((decimal)cdfG[pixelColor.G] * Const);
+                    B = (int)((decimal)cdfB[pixelColor.B] * Const);
+
+                    Color newColor = Color.FromArgb(R, G, B);
+                    renderedImage.SetPixel(x, y, newColor);
+                }
+            }
+            return renderedImage;
         }
 
     }

@@ -253,6 +253,12 @@ namespace GraphicEditor
             }
         }
 
+        private void Rozciągnij_histogram_Click(object sender, RoutedEventArgs e)
+        {
+            HistogramLibrary srv = new HistogramLibrary();
+            image.Source = BitmapToImageSource(srv.histogramEqualization(imageDisplayed));
+        }
+
 
     }
 }

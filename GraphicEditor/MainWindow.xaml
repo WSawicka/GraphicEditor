@@ -37,6 +37,8 @@
                     <MenuItem Header="Stworz Histogramy" Click="MenuItem_Click"></MenuItem>
                     <MenuItem Header="Przyciemnij" Name="Przyciemnij" Click="Przyciemnij_Click" ></MenuItem>
                     <MenuItem Header="Rozjaśnij" Name="Rozjaśnij" Click="Rozjaśnij_Click" ></MenuItem>
+                    <MenuItem Header="Rozciągnij histogram" Name="Rozciągnij_histogram" Click="Rozciągnij_histogram_Click"></MenuItem>
+                   
                 </MenuItem>
             </Menu>
         

@@ -1,0 +1,11 @@
+﻿<Window x:Class="GraphicEditor.getOneValueWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="getOneValueWindow" Height="104" Width="232">
+    <Grid>
+        <TextBox Name="value" HorizontalAlignment="Left" Height="23" Margin="22,10,0,0" Text="Wpisz wartosc przyciemnienia" VerticalAlignment="Top" Width="179"/>
+        <Button Content="Ok" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="71,43,0,0" Click="Button_Click"/>
+
+
+    </Grid>
+</Window>
