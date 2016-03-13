@@ -230,7 +230,13 @@ namespace GraphicEditor
 
         private void Bin_Reczna_Click(object sender, RoutedEventArgs e)
         {
+            getOneValueWindow wi = new getOneValueWindow();
 
+            if (wi.ShowDialog().Value)
+            {
+                HistogramLibrary srv = new HistogramLibrary();
+                image.Source = BitmapToImageSource(srv.TransformBinary(imageDisplayed, wi._value));
+            }
         }
 
         private void Bin_Automat_Click(object sender, RoutedEventArgs e)

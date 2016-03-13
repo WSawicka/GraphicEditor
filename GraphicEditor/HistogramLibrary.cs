@@ -236,5 +236,26 @@ namespace GraphicEditor
             return renderedImage;
         }
 
+        public Bitmap TransformBinary(Bitmap sourceImage, int boundary)
+        {
+            Bitmap renderedImage = sourceImage;
+
+            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
+            decimal Const = 255 / (decimal)pixels;
+
+            int x, y, Rgrey, Ggrey, Bgrey;
+
+            for (y = 0; y < renderedImage.Height; y++)
+            {
+                for (x = 0; x < renderedImage.Width; x++)
+                {
+                    Color pixelColor = renderedImage.GetPixel(x, y);
+                    int brightness =(int)( pixelColor.R * 0.299 + pixelColor.G * 0.587 + pixelColor.B * 0.114);
+                    if (brightness > boundary) renderedImage.SetPixel(x, y, Color.White);
+                    else renderedImage.SetPixel(x, y, Color.Black);
+                }
+            }
+            return renderedImage;
+        }
     }
 }
