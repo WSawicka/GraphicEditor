@@ -211,5 +211,30 @@ namespace GraphicEditor
             return renderedImage;
         }
 
+        public Bitmap ConvertToGrayscale(Bitmap sourceImage)
+        {
+            Bitmap renderedImage = sourceImage;
+
+            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
+            decimal Const = 255 / (decimal)pixels;
+
+            int x, y, Rgrey, Ggrey, Bgrey;
+
+            for (y = 0; y < renderedImage.Height; y++)
+            {
+                for (x = 0; x < renderedImage.Width; x++)
+                {
+                    Color pixelColor = renderedImage.GetPixel(x, y);
+                    Rgrey = (int)((pixelColor.R * 0.299) + (pixelColor.G * 0.587) + (pixelColor.B * 0.114));
+                    Ggrey = (int)((pixelColor.R * 0.299) + (pixelColor.G * 0.587) + (pixelColor.B * 0.114));
+                    Bgrey = (int)((pixelColor.R * 0.299) + (pixelColor.G * 0.587) + (pixelColor.B * 0.114));
+
+                    Color newColor = Color.FromArgb(Rgrey, Ggrey, Bgrey);
+                    renderedImage.SetPixel(x, y, newColor);
+                }
+            }
+            return renderedImage;
+        }
+
     }
 }

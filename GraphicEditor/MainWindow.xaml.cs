@@ -20,7 +20,7 @@ namespace GraphicEditor
         {
             InitializeComponent();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-         
+
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -41,8 +41,6 @@ namespace GraphicEditor
                 image.Stretch = System.Windows.Media.Stretch.None;
                 imageDisplayed = new Bitmap(openFileDialog.FileName);
                 dept = Image.GetPixelFormatSize(imageDisplayed.PixelFormat);
-
-               
             }
         }
 
@@ -64,9 +62,9 @@ namespace GraphicEditor
                     GBox.Text = color.G.ToString();
                     BBox.Text = color.B.ToString();
                 }
-                  
-                catch (Exception r) { MessageBox.Show(r.Message);  }
-               
+
+                catch (Exception r) { MessageBox.Show(r.Message); }
+
             }
         }
 
@@ -74,13 +72,7 @@ namespace GraphicEditor
         {
             color = Color.FromArgb(Int32.Parse(RBox.Text), Int32.Parse(GBox.Text), Int32.Parse(BBox.Text));
             imageDisplayed.SetPixel((int)point.X, (int)point.Y, Color.FromArgb(color.A, color.R, color.G, color.B));
-          /// image.Source = null;
-           /// SaveImage();
-           /// 
             MessageBox.Show("Zapisano nowe wartości.");
-
-            // TODO: repaint image to show changes
-            // image.Source = (BitmapImage) imageDisplayed;
         }
 
         private void saveFile_Click(object sender, RoutedEventArgs e)
@@ -91,14 +83,6 @@ namespace GraphicEditor
 
         private void SaveImage()
         {
-
-            //SaveFileDialog dialog = new SaveFileDialog();
-
-            //if (dialog.ShowDialog().Value)
-            //{
-            //    imageDisplayed.Save("test.jpg", ImageFormat.Png);
-            //}
-
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "JPeg Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif|TIFF|*.tiff";
             saveFileDialog1.Title = "Save an Image File";
@@ -110,59 +94,44 @@ namespace GraphicEditor
                 // Saves the Image via a FileStream created by the OpenFile method.
                 System.IO.FileStream fs =
                    (System.IO.FileStream)saveFileDialog1.OpenFile();
-               PixelFormat test = imageDisplayed.PixelFormat;
+                PixelFormat test = imageDisplayed.PixelFormat;
 
-               Encoder myEncoder;
-               ImageCodecInfo myImageCodecInfo;
-               EncoderParameter myEncoderParameter;
-               EncoderParameters myEncoderParameters;
-               myEncoder = Encoder.ColorDepth;
+                Encoder myEncoder;
+                ImageCodecInfo myImageCodecInfo;
+                EncoderParameter myEncoderParameter;
+                EncoderParameters myEncoderParameters;
+                myEncoder = Encoder.ColorDepth;
 
-           
-               myEncoderParameters = new EncoderParameters(1);
-               myEncoderParameter =  new EncoderParameter(myEncoder, dept);
 
-               myEncoderParameters.Param[0] = myEncoderParameter;
+                myEncoderParameters = new EncoderParameters(1);
+                myEncoderParameter = new EncoderParameter(myEncoder, dept);
 
-          
+                myEncoderParameters.Param[0] = myEncoderParameter;
 
-               var encode = new EncoderParameter(Encoder.ColorDepth, 24);
+                var encode = new EncoderParameter(Encoder.ColorDepth, 24);
 
                 // Saves the Image in the appropriate ImageFormat based upon the
                 // File type selected in the dialog box.
                 // NOTE that the FilterIndex property is one-based.
                 switch (saveFileDialog1.FilterIndex)
                 {
-                      
                     case 1:
-                         myImageCodecInfo = GetEncoderInfo("image/jpeg");                      
-                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
+                        myImageCodecInfo = GetEncoderInfo("image/jpeg");
+                        imageDisplayed.Save(fs, myImageCodecInfo, myEncoderParameters);
                         break;
-
                     case 2:
-                   
-
-                          myImageCodecInfo = GetEncoderInfo("image/bmp");                      
-                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
-
+                        myImageCodecInfo = GetEncoderInfo("image/bmp");
+                        imageDisplayed.Save(fs, myImageCodecInfo, myEncoderParameters);
                         break;
-
                     case 3:
-                 
-
-                          myImageCodecInfo = GetEncoderInfo("image/gif");                      
-                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
-
+                        myImageCodecInfo = GetEncoderInfo("image/gif");
+                        imageDisplayed.Save(fs, myImageCodecInfo, myEncoderParameters);
                         break;
                     case 4:
-               
-                          myImageCodecInfo = GetEncoderInfo("image/tiff");                      
-                        imageDisplayed.Save(fs, myImageCodecInfo,  myEncoderParameters);
-
+                        myImageCodecInfo = GetEncoderInfo("image/tiff");
+                        imageDisplayed.Save(fs, myImageCodecInfo, myEncoderParameters);
                         break;
-
                 }
-
                 fs.Close();
             }
         }
@@ -189,7 +158,6 @@ namespace GraphicEditor
 
             if (imageDisplayed != null)
             {
-
                 try
                 {
                     color = imageDisplayed.GetPixel(Convert.ToInt16(xPixel.Text), Convert.ToInt16(yPixel.Text));
@@ -197,8 +165,7 @@ namespace GraphicEditor
                     GBox.Text = color.G.ToString();
                     BBox.Text = color.B.ToString();
                 }
-                catch (Exception r) { MessageBox.Show(r.Message);  }
-               
+                catch (Exception r) { MessageBox.Show(r.Message); }
             }
         }
 
@@ -216,13 +183,9 @@ namespace GraphicEditor
             if (wi.ShowDialog().Value)
             {
                 HistogramLibrary srv = new HistogramLibrary();
-                image.Source = BitmapToImageSource(srv.Rozjasnij(imageDisplayed, -1* wi._value));
+                image.Source = BitmapToImageSource(srv.Rozjasnij(imageDisplayed, -1 * wi._value));
 
             }
-
-
-
-
         }
 
         private void Rozjaśnij_Click(object sender, RoutedEventArgs e)
@@ -233,7 +196,7 @@ namespace GraphicEditor
             {
                 HistogramLibrary srv = new HistogramLibrary();
                 image.Source = BitmapToImageSource(srv.Rozjasnij(imageDisplayed, wi._value));
-              
+
             }
         }
 
@@ -259,6 +222,25 @@ namespace GraphicEditor
             image.Source = BitmapToImageSource(srv.histogramEqualization(imageDisplayed));
         }
 
+        private void Odcienie_Szarosci_Click(object sender, RoutedEventArgs e)
+        {
+            HistogramLibrary srv = new HistogramLibrary();
+            image.Source = BitmapToImageSource(srv.ConvertToGrayscale(imageDisplayed));
+        }
 
+        private void Bin_Reczna_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Bin_Automat_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Bin_Lok_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
