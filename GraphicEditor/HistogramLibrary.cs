@@ -13,14 +13,10 @@ namespace GraphicEditor
 
         public void CreateHistogram(Bitmap bmp)
         {
-
             createBHistogram(bmp);
             createGHistogram(bmp);
             createRHistogram(bmp);
-
         }
-
-
 
         private int[] createRHistogram(Bitmap bmp)
         {
@@ -127,18 +123,13 @@ namespace GraphicEditor
             }
             img.Save(@"B.jpg");
             return histogram_b;
-
         }
-
-
+        
         public Bitmap Rozjasnij(Bitmap bmp, int val)
         {
-
             byte[] LUT = new byte[256];
-
             for (int i = 0; i < 256; i++)
             {
-
                      if ((val + i) > 255)
                     {
                         LUT[i] = 255;
@@ -150,8 +141,7 @@ namespace GraphicEditor
                     else
                     {
                         LUT[i] = (byte)(val + i);
-                    }
-                  
+                    }         
             }
 
             //Pobierz wartosc wszystkich punktow obrazu
@@ -243,8 +233,7 @@ namespace GraphicEditor
             uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
             decimal Const = 255 / (decimal)pixels;
 
-            int x, y, Rgrey, Ggrey, Bgrey;
-
+            int x, y;
             for (y = 0; y < renderedImage.Height; y++)
             {
                 for (x = 0; x < renderedImage.Width; x++)
@@ -256,6 +245,54 @@ namespace GraphicEditor
                 }
             }
             return renderedImage;
+        }
+
+        public Bitmap TransformOtsu(Bitmap sourceImage)
+        {
+            Bitmap renderedImage = ConvertToGrayscale(sourceImage);
+
+            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
+            decimal Const = 255 / (decimal)pixels;
+
+            int x, y;
+            byte[] grey = new byte[256]; // stworz histogram
+            for (int i = 0; i < 255; i++) grey[i] = 0;
+
+            for (y = 0; y < renderedImage.Height; y++)
+            {
+                for (x = 0; x < renderedImage.Width; x++)
+                {
+                    Color pixelColor = renderedImage.GetPixel(x, y);
+                    int brightness = (int)(pixelColor.R * 0.299 + pixelColor.G * 0.587 + pixelColor.B * 0.114);
+                    grey[brightness]++;
+                }
+            }
+            double[] variancies = new double[256];
+            for (int group = 0; group < 256; group++) {
+                double objectDepth = 0, backgrDepth = 0;
+                for (int i = 0; i < group; i++)
+                {
+                    objectDepth += grey[i];
+                }
+                for (int i = group; i < 256; i++)
+                {
+                    backgrDepth += grey[i];
+                }
+
+                double objectMiddleDepth = 0, backgrMiddleDepth = 0;
+                for (int i = 0; i < group; i++)
+                {
+                    objectMiddleDepth += (grey[i] * i) / objectDepth;
+                }
+                for (int i = group; i < 256; i++)
+                {
+                    backgrMiddleDepth += (grey[i] * i) / backgrDepth;
+                }
+
+                variancies[group] = Math.Sqrt(objectDepth * backgrDepth * Math.Pow(objectMiddleDepth - backgrMiddleDepth, 2));
+            }
+            int boundary = Array.IndexOf(variancies, variancies.Max());
+            return TransformBinary(renderedImage, boundary);
         }
     }
 }

@@ -65,7 +65,7 @@
         <TextBox x:Name="BBox" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Margin="4"/>
 
         <Button x:Name="updatePixel" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="12,2,12,2" Click="HandleButton_Save"/>
-        <Image x:Name="image"  Grid.Row="0" Grid.RowSpan="6" Grid.Column="2" MouseUp="HandleImage_MouseUp"/>
+        <Image x:Name="image"  Grid.Row="0" Grid.RowSpan="10" Grid.Column="2" MouseUp="HandleImage_MouseUp"/>
 
             <TextBox  Margin="3" Text="wpisz X" x:Name="xPixel"  Grid.Row="7" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
         <TextBox   Margin="3" Text="wpisz Y"  x:Name="yPixel" Grid.Row="8" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>

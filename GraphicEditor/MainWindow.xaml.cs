@@ -241,7 +241,8 @@ namespace GraphicEditor
 
         private void Bin_Automat_Click(object sender, RoutedEventArgs e)
         {
-
+            HistogramLibrary srv = new HistogramLibrary();
+            image.Source = BitmapToImageSource(srv.TransformOtsu(imageDisplayed));
         }
 
         private void Bin_Lok_Click(object sender, RoutedEventArgs e)
