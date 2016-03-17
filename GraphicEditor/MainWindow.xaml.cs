@@ -224,8 +224,8 @@ namespace GraphicEditor
 
         private void Odcienie_Szarosci_Click(object sender, RoutedEventArgs e)
         {
-            HistogramLibrary srv = new HistogramLibrary();
-            image.Source = BitmapToImageSource(srv.ConvertToGrayscale(imageDisplayed));
+            BinarizationLibrary bl = new BinarizationLibrary();
+            image.Source = BitmapToImageSource(bl.ConvertToGrayscale(imageDisplayed));
         }
 
         private void Bin_Reczna_Click(object sender, RoutedEventArgs e)
@@ -234,15 +234,15 @@ namespace GraphicEditor
 
             if (wi.ShowDialog().Value)
             {
-                HistogramLibrary srv = new HistogramLibrary();
-                image.Source = BitmapToImageSource(srv.TransformBinary(imageDisplayed, wi._value));
+                BinarizationLibrary bl = new BinarizationLibrary();
+                image.Source = BitmapToImageSource(bl.TransformBinary(imageDisplayed, wi._value));
             }
         }
 
         private void Bin_Automat_Click(object sender, RoutedEventArgs e)
         {
-            HistogramLibrary srv = new HistogramLibrary();
-            image.Source = BitmapToImageSource(srv.TransformOtsu(imageDisplayed));
+            BinarizationLibrary bl = new BinarizationLibrary();
+            image.Source = BitmapToImageSource(bl.TransformOtsu(imageDisplayed));
         }
 
         private void Bin_Lok_Click(object sender, RoutedEventArgs e)
@@ -250,8 +250,8 @@ namespace GraphicEditor
             TwoValueWindow window = new TwoValueWindow();
             if (window.ShowDialog().Value)
             {
-                HistogramLibrary srv = new HistogramLibrary();
-                image.Source = BitmapToImageSource(srv.TransformBinaryNiblack(imageDisplayed, window._size, window._k));
+                BinarizationLibrary bl = new BinarizationLibrary();
+                image.Source = BitmapToImageSource(bl.TransformBinaryNiblack(imageDisplayed, window._size, window._k));
             }
         }
     }

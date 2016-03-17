@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphicEditor
 {
     public class HistogramLibrary
     {
-
         public void CreateHistogram(Bitmap bmp)
         {
             createBHistogram(bmp);
@@ -20,7 +15,6 @@ namespace GraphicEditor
 
         private int[] createRHistogram(Bitmap bmp)
         {
-
             int[] histogram_r = new int[256];
             float max = 0;
 
@@ -51,12 +45,10 @@ namespace GraphicEditor
             }
             img.Save(@"R.jpg");
             return histogram_r;
-
         }
 
         private int[] createGHistogram(Bitmap bmp)
         {
-
             int[] histogram_g = new int[256];
             float max = 0;
 
@@ -87,12 +79,10 @@ namespace GraphicEditor
             }
             img.Save(@"G.jpg");
             return histogram_g;
-
         }
 
         private int[] createBHistogram(Bitmap bmp)
         {
-
             int[] histogram_b = new int[256];
             float max = 0;
 
@@ -158,7 +148,6 @@ namespace GraphicEditor
             System.Runtime.InteropServices.Marshal.Copy(pixelValues, 0, bmpData.Scan0, pixelValues.Length);
             bmp.UnlockBits(bmpData);
             return bmp;
-
         }
 
         public Bitmap histogramEqualization(Bitmap sourceImage)
@@ -169,8 +158,7 @@ namespace GraphicEditor
             decimal Const = 255 / (decimal)pixels;
 
             int x, y, R, G, B;
-
-
+            
             //Create histogram arrays for R,G,B channels
             int[] cdfR = createRHistogram(sourceImage);
             int[] cdfG = createGHistogram(sourceImage);
@@ -199,158 +187,6 @@ namespace GraphicEditor
                 }
             }
             return renderedImage;
-        }
-
-        public Bitmap ConvertToGrayscale(Bitmap sourceImage)
-        {
-            Bitmap renderedImage = sourceImage;
-
-            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
-            decimal Const = 255 / (decimal)pixels;
-
-            int x, y, Rgrey, Ggrey, Bgrey;
-
-            for (y = 0; y < renderedImage.Height; y++)
-            {
-                for (x = 0; x < renderedImage.Width; x++)
-                {
-                    Color pixelColor = renderedImage.GetPixel(x, y);
-                    Rgrey = (int)((pixelColor.R * 0.299) + (pixelColor.G * 0.587) + (pixelColor.B * 0.114));
-                    Ggrey = (int)((pixelColor.R * 0.299) + (pixelColor.G * 0.587) + (pixelColor.B * 0.114));
-                    Bgrey = (int)((pixelColor.R * 0.299) + (pixelColor.G * 0.587) + (pixelColor.B * 0.114));
-
-                    Color newColor = Color.FromArgb(Rgrey, Ggrey, Bgrey);
-                    renderedImage.SetPixel(x, y, newColor);
-                }
-            }
-            return renderedImage;
-        }
-
-        public Bitmap TransformBinary(Bitmap sourceImage, int boundary)
-        {
-            Bitmap renderedImage = sourceImage;
-
-            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
-            decimal Const = 255 / (decimal)pixels;
-
-            int x, y;
-            for (y = 0; y < renderedImage.Height; y++)
-            {
-                for (x = 0; x < renderedImage.Width; x++)
-                {
-                    Color pixelColor = renderedImage.GetPixel(x, y);
-                    int brightness = (int)(pixelColor.R * 0.299 + pixelColor.G * 0.587 + pixelColor.B * 0.114);
-                    if (brightness > boundary) renderedImage.SetPixel(x, y, Color.White);
-                    else renderedImage.SetPixel(x, y, Color.Black);
-                }
-            }
-            return renderedImage;
-        }
-
-        public Bitmap TransformOtsu(Bitmap sourceImage)
-        {
-            Bitmap renderedImage = ConvertToGrayscale(sourceImage);
-            uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
-            decimal Const = 255 / (decimal)pixels;
-
-            int x, y;
-            byte[] grey = new byte[256]; // stworz histogram
-            for (int i = 0; i < 255; i++) grey[i] = 0;
-
-            for (y = 0; y < renderedImage.Height; y++)
-            {
-                for (x = 0; x < renderedImage.Width; x++)
-                {
-                    Color pixelColor = renderedImage.GetPixel(x, y);
-                    int brightness = (int)(pixelColor.R * 0.299 + pixelColor.G * 0.587 + pixelColor.B * 0.114);
-                    grey[brightness]++;
-                }
-            }
-            double[] variancies = new double[256];
-            for (int group = 0; group < 256; group++)
-            {
-                double objectDepth = 0, backgrDepth = 0;
-                for (int i = 0; i < group; i++)
-                {
-                    objectDepth += grey[i];
-                }
-                for (int i = group; i < 256; i++)
-                {
-                    backgrDepth += grey[i];
-                }
-
-                double objectMiddleDepth = 0, backgrMiddleDepth = 0;
-                for (int i = 0; i < group; i++)
-                {
-                    objectMiddleDepth += (grey[i] * i) / objectDepth;
-                }
-                for (int i = group; i < 256; i++)
-                {
-                    backgrMiddleDepth += (grey[i] * i) / backgrDepth;
-                }
-
-                variancies[group] = Math.Sqrt(objectDepth * backgrDepth * Math.Pow(objectMiddleDepth - backgrMiddleDepth, 2));
-            }
-            int boundary = Array.IndexOf(variancies, variancies.Max());
-            return TransformBinary(renderedImage, boundary);
-        }
-
-        public Bitmap TransformBinaryNiblack(Bitmap sourceImage, int boxSize, double k)
-        {
-            Bitmap renderedImage = ConvertToGrayscale(sourceImage);
-            int size = boxSize / 2;
-
-            uint pixels = (uint)sourceImage.Height * (uint)sourceImage.Width;
-            decimal Const = 255 / (decimal)pixels;
-
-            double srednia = 0; //średnia arytmetyczna = (suma xi od i=0 do n )/n 
-            double odchStand = 0;//odchylenie standardowe = pierwiastek z ( ((suma xi od i=0 do n ) - srednia) / n-1 )
-            
-            // lista z wczytanymii obliczonymi wartościami jasności obrazu
-            List<int> boxBrightness = new List<int>();
-            
-
-            for (int y = 0; y < sourceImage.Height; y++)
-            {
-                for (int x = 0; x < sourceImage.Width; x++)
-                {
-                    Color pixel = sourceImage.GetPixel(x, y);
-                    int brightness = pixel.R + pixel.G + pixel.B;
-
-                    if (x - size >= 0 && y - size >= 0 && x + size < sourceImage.Width && y + size < sourceImage.Height)
-                    {
-                        int i = 0;
-                        //pobranie jasności obszaru
-                        
-                        srednia += boxBrightness.Average();
-
-                        foreach (int b in boxBrightness)
-                        {
-                            odchStand += Math.Pow((b - srednia), 2);
-                        }
-                        odchStand = Math.Sqrt(odchStand / ((Math.Pow(size, 2)) - 1));
-                        double boundary = srednia + odchStand * k;
-
-                        if (brightness > boundary) renderedImage.SetPixel(x, y, Color.White);
-                        else renderedImage.SetPixel(x, y, Color.Black);
-                    }
-                }
-            }
-            return renderedImage;
-        }
-
-        public List<int> setBoxBrightnessList(int size, Bitmap image)
-        {
-            List<int> boxBrightness = new List<int>();
-            for (int h = 0; h < size; h++)
-            {
-                for (int w = 0; w < size; w++)
-                {
-                    Color p = image.GetPixel(w, h);
-                    boxBrightness.Add((int)(p.R * 0.299 + p.G * 0.587 + p.B * 0.114));
-                }
-            }
-            return boxBrightness;
         }
     }
 }

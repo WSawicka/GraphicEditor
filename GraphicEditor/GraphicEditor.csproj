@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BinarizationLibrary.cs" />
     <Compile Include="TwoValueWindow.xaml.cs">
       <DependentUpon>TwoValueWindow.xaml</DependentUpon>
     </Compile>
