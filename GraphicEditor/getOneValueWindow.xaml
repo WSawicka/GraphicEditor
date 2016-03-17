@@ -4,7 +4,7 @@
         Title="getOneValueWindow" Height="104" Width="232">
     <Grid>
         <TextBox Name="value" HorizontalAlignment="Left" Height="23" Margin="22,10,0,0" Text="Wpisz wartosc przyciemnienia" VerticalAlignment="Top" Width="179"/>
-        <Button Content="Ok" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="71,43,0,0" Click="Button_Click"/>
+        <Button Content="Ok" IsDefault="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="71,43,0,0" Click="Button_Click"/>
 
 
     </Grid>

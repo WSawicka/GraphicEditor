@@ -124,24 +124,24 @@ namespace GraphicEditor
             img.Save(@"B.jpg");
             return histogram_b;
         }
-        
+
         public Bitmap Rozjasnij(Bitmap bmp, int val)
         {
             byte[] LUT = new byte[256];
             for (int i = 0; i < 256; i++)
             {
-                     if ((val + i) > 255)
-                    {
-                        LUT[i] = 255;
-                    }
-                    else if ((val + i) < 0)
-                    {
-                        LUT[i] = 0;
-                    }
-                    else
-                    {
-                        LUT[i] = (byte)(val + i);
-                    }         
+                if ((val + i) > 255)
+                {
+                    LUT[i] = 255;
+                }
+                else if ((val + i) < 0)
+                {
+                    LUT[i] = 0;
+                }
+                else
+                {
+                    LUT[i] = (byte)(val + i);
+                }
             }
 
             //Pobierz wartosc wszystkich punktow obrazu
@@ -170,7 +170,7 @@ namespace GraphicEditor
 
             int x, y, R, G, B;
 
-          
+
             //Create histogram arrays for R,G,B channels
             int[] cdfR = createRHistogram(sourceImage);
             int[] cdfG = createGHistogram(sourceImage);
@@ -239,7 +239,7 @@ namespace GraphicEditor
                 for (x = 0; x < renderedImage.Width; x++)
                 {
                     Color pixelColor = renderedImage.GetPixel(x, y);
-                    int brightness =(int)( pixelColor.R * 0.299 + pixelColor.G * 0.587 + pixelColor.B * 0.114);
+                    int brightness = (int)(pixelColor.R * 0.299 + pixelColor.G * 0.587 + pixelColor.B * 0.114);
                     if (brightness > boundary) renderedImage.SetPixel(x, y, Color.White);
                     else renderedImage.SetPixel(x, y, Color.Black);
                 }
@@ -250,7 +250,6 @@ namespace GraphicEditor
         public Bitmap TransformOtsu(Bitmap sourceImage)
         {
             Bitmap renderedImage = ConvertToGrayscale(sourceImage);
-
             uint pixels = (uint)renderedImage.Height * (uint)renderedImage.Width;
             decimal Const = 255 / (decimal)pixels;
 
@@ -268,7 +267,8 @@ namespace GraphicEditor
                 }
             }
             double[] variancies = new double[256];
-            for (int group = 0; group < 256; group++) {
+            for (int group = 0; group < 256; group++)
+            {
                 double objectDepth = 0, backgrDepth = 0;
                 for (int i = 0; i < group; i++)
                 {
@@ -293,6 +293,64 @@ namespace GraphicEditor
             }
             int boundary = Array.IndexOf(variancies, variancies.Max());
             return TransformBinary(renderedImage, boundary);
+        }
+
+        public Bitmap TransformBinaryNiblack(Bitmap sourceImage, int boxSize, double k)
+        {
+            Bitmap renderedImage = ConvertToGrayscale(sourceImage);
+            int size = boxSize / 2;
+
+            uint pixels = (uint)sourceImage.Height * (uint)sourceImage.Width;
+            decimal Const = 255 / (decimal)pixels;
+
+            double srednia = 0; //średnia arytmetyczna = (suma xi od i=0 do n )/n 
+            double odchStand = 0;//odchylenie standardowe = pierwiastek z ( ((suma xi od i=0 do n ) - srednia) / n-1 )
+            
+            // lista z wczytanymii obliczonymi wartościami jasności obrazu
+            List<int> boxBrightness = new List<int>();
+            
+
+            for (int y = 0; y < sourceImage.Height; y++)
+            {
+                for (int x = 0; x < sourceImage.Width; x++)
+                {
+                    Color pixel = sourceImage.GetPixel(x, y);
+                    int brightness = pixel.R + pixel.G + pixel.B;
+
+                    if (x - size >= 0 && y - size >= 0 && x + size < sourceImage.Width && y + size < sourceImage.Height)
+                    {
+                        int i = 0;
+                        //pobranie jasności obszaru
+                        
+                        srednia += boxBrightness.Average();
+
+                        foreach (int b in boxBrightness)
+                        {
+                            odchStand += Math.Pow((b - srednia), 2);
+                        }
+                        odchStand = Math.Sqrt(odchStand / ((Math.Pow(size, 2)) - 1));
+                        double boundary = srednia + odchStand * k;
+
+                        if (brightness > boundary) renderedImage.SetPixel(x, y, Color.White);
+                        else renderedImage.SetPixel(x, y, Color.Black);
+                    }
+                }
+            }
+            return renderedImage;
+        }
+
+        public List<int> setBoxBrightnessList(int size, Bitmap image)
+        {
+            List<int> boxBrightness = new List<int>();
+            for (int h = 0; h < size; h++)
+            {
+                for (int w = 0; w < size; w++)
+                {
+                    Color p = image.GetPixel(w, h);
+                    boxBrightness.Add((int)(p.R * 0.299 + p.G * 0.587 + p.B * 0.114));
+                }
+            }
+            return boxBrightness;
         }
     }
 }

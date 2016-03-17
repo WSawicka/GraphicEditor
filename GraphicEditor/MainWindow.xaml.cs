@@ -247,7 +247,12 @@ namespace GraphicEditor
 
         private void Bin_Lok_Click(object sender, RoutedEventArgs e)
         {
-
+            TwoValueWindow window = new TwoValueWindow();
+            if (window.ShowDialog().Value)
+            {
+                HistogramLibrary srv = new HistogramLibrary();
+                image.Source = BitmapToImageSource(srv.TransformBinaryNiblack(imageDisplayed, window._size, window._k));
+            }
         }
     }
 }
