@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphicEditor
 {
@@ -120,7 +118,7 @@ namespace GraphicEditor
             for (int y = 0; y < sourceImage.Height; y++)
             {
                 setFirstLineBoxBrightnessList(y, size, boxBrightness, sourceImage);
-
+                Console.WriteLine(y);
                 for (int x = 0; x < sourceImage.Width; x++)
                 {
                     Color pixel = sourceImage.GetPixel(x, y);
@@ -134,18 +132,26 @@ namespace GraphicEditor
                     srednia /= boxBrightness.Count();
 
                     odchStand = 0;
+                    double tempOdchStand = 0;
                     foreach (var sublist in boxBrightness)
                     {
                         foreach (int b in sublist)
                         {
-                            odchStand += Math.Pow((b - srednia), 2);
+                            tempOdchStand += Math.Pow((b - srednia), 2);
                         }
                     }
-                    odchStand = Math.Sqrt(odchStand / ((Math.Pow(size, 2)) - 1));
+                    tempOdchStand /= (Math.Pow(size, 2));
+                    odchStand = Math.Sqrt(tempOdchStand);
 
-                    double boundary = srednia + odchStand * k;
-                    if (brightness > boundary) renderedImage.SetPixel(x, y, Color.White);
-                    else renderedImage.SetPixel(x, y, Color.Black);
+                    double boundary = srednia - odchStand * k;
+                    if (brightness > boundary)
+                    {
+                        renderedImage.SetPixel(x, y, Color.White);
+                    }
+                    else
+                    {
+                        renderedImage.SetPixel(x, y, Color.Black);
+                    }
 
                     //dodaj nowe elementy i usuń stare
                     if (x + 1 < sourceImage.Width) updateBoxBrightness(x, y, size, boxBrightness, sourceImage);
@@ -178,26 +184,22 @@ namespace GraphicEditor
         public void updateBoxBrightness(int x, int y, int size, List<List<int>> boxBrightness, Bitmap image)
         {
             //usuń linię z kolumny (y- size) a dodaj linię z kolumny (y + size + 1)
-            int Xstart = x - size, Xend = x + size;
-            int Ystart = y - size, Yend = y + size;
-
-            //uwzglęnienie wartości brzegowych
-            if (Xstart < 0) Xstart = 0;
-            else if (Xend > image.Width) Xend = image.Width;
-            if (Ystart < 0) Ystart = 0;
-            else if (Yend > image.Height) Yend = image.Height;
+            int X = x;
+            int Ystart = (y - size < 0) ? 0 : y - size;
+            int Yend = (y + size > image.Height) ? image.Height : y + size;
 
             boxBrightness.RemoveAt(0);
+
+            if (x >= image.Width) return;
+
+            List<int> sublist = new List<int>();
             for (int h = Ystart; h < Yend; h++)
             {
-                List<int> sublist = new List<int>();
-                for (int w = 0; w < size; w++)
-                {
-                    Color p = image.GetPixel(w, h);
-                    sublist.Add((int)(p.R * 0.299 + p.G * 0.587 + p.B * 0.114));
-                }
-                boxBrightness.Add(sublist);
+                Color p = image.GetPixel(X, h);
+                sublist.Add((int)(p.R * 0.299 + p.G * 0.587 + p.B * 0.114));
             }
+            boxBrightness.Add(sublist);
+
         }
     }
 }
