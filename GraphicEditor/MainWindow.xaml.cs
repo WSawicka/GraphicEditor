@@ -254,5 +254,36 @@ namespace GraphicEditor
                 image.Source = BitmapToImageSource(bl.TransformBinaryNiblack(imageDisplayed, window._size, window._k));
             }
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Filtr_konwolucyjny_Click(object sender, RoutedEventArgs e)
+        {
+            var getMask = new GetMask();
+            getMask.ShowDialog();
+
+            var mask = getMask._mask;
+
+            FiltrLibrary lib = new FiltrLibrary();
+            Bitmap rezult = lib.FiltrKonwolucyjny(imageDisplayed,mask);
+
+            MessageBox.Show("Koniec");
+            image.Source = BitmapToImageSource(rezult);
+
+
+        }
+
+        private void Filtr_Kuwahara_Click(object sender, RoutedEventArgs e)
+        {
+           
+            FiltrLibrary lib = new FiltrLibrary();
+            Bitmap rezult = lib.FiltrKuwahara(imageDisplayed, null);
+
+            MessageBox.Show("Koniec");
+            image.Source = BitmapToImageSource(rezult);
+        }
     }
 }

@@ -58,9 +58,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BinarizationLibrary.cs" />
+    <Compile Include="FiltrLibrary.cs" />
+    <Compile Include="GetMask5x5.xaml.cs">
+      <DependentUpon>GetMask5x5.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GetMask.xaml.cs">
+      <DependentUpon>GetMask.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TwoValueWindow.xaml.cs">
       <DependentUpon>TwoValueWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="GetMask5x5.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GetMask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="getOneValueWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
