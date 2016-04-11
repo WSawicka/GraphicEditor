@@ -49,6 +49,8 @@
                 <MenuItem Header="Zadanie4">
                     <MenuItem Name="Filtr_konwolucyjny" Header="Filtr_konwolucyjny"  Click="Filtr_konwolucyjny_Click"></MenuItem>
                     <MenuItem Name="Filtr_Kuwahara" Header="Filtr Kuwahara"  Click="Filtr_Kuwahara_Click"></MenuItem>
+                    <MenuItem Name="FiltrM3x3" Header="Filtr Medianowy 3x3"  Click="FiltrM3x3_Click"></MenuItem>
+                    <MenuItem Name="FiltrM5x5" Header="Filtr Medianowy 5x5"  Click="FiltrM5x5_Click"></MenuItem>
 
                 </MenuItem>
             </Menu>

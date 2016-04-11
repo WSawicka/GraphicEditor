@@ -285,5 +285,23 @@ namespace GraphicEditor
             MessageBox.Show("Koniec");
             image.Source = BitmapToImageSource(rezult);
         }
+
+        private void FiltrM3x3_Click(object sender, RoutedEventArgs e)
+        {
+            FiltrLibrary lib = new FiltrLibrary();
+            Bitmap rezult = lib.FiltrMediana(imageDisplayed, null,1);
+
+            MessageBox.Show("Koniec");
+            image.Source = BitmapToImageSource(rezult);
+        }
+
+        private void FiltrM5x5_Click(object sender, RoutedEventArgs e)
+        {
+            FiltrLibrary lib = new FiltrLibrary();
+            Bitmap rezult = lib.FiltrMediana(imageDisplayed, null, 2);
+
+            MessageBox.Show("Koniec");
+            image.Source = BitmapToImageSource(rezult);
+        }
     }
 }
