@@ -11,20 +11,32 @@ namespace GraphicEditor
     {
         private Bitmap renderedImage;
         private int[,] picture;
+        private int[,] tempPicture;
         private int[,] table = new int[3, 3] { { 128, 1, 2 }, { 64, 0, 4 }, { 32, 16, 8 } };
-        private List<int> foursTable = new List<int>(new int[]
-          { 3, 12, 48, 192, 6, 24, 96, 129,
-            14, 56, 131, 224, 7, 28, 112, 193,
-            195, 135, 15, 30, 60, 120, 240, 225});
+        private List<int> twoList = new List<int>(new int[]
+          { 3,   6,   7,   12,  14,  15,  24,  28,  30,  31,  48,
+            56,  60,  62,  63,  96,  112, 120, 124, 126, 127, 129,
+            131, 135, 143, 159, 191, 192, 193, 195, 199, 207, 223,
+            224, 225, 227, 231, 239, 240, 241, 243, 247, 248, 249,
+            251, 252, 253, 254 });
+        private List<int> fourList = new List<int>(new int[]
+          { 3,   12,  48,  192, 6,   24,  96,  129,
+            14,  56,  131, 224, 7,   28,  112, 193,
+            195, 135, 15,  30,  60,  120, 240, 225 });
+        private List<int> neighb34567 = new List<int>(new int[]
+          { 7,   14,  15,  28,  30,  31,  56,  60,  62,  63,  112,
+            120, 124, 126, 131, 135, 143, 159, 191, 193, 195, 199,
+            207, 224, 225, 227, 231, 239, 240, 241, 243, 248, 249,
+            251, 252, 254 });
         private List<int> deletionList = new List<int>(new int[]
-         {  5,   13,  15,  20,  21,  22,  23,  29, 30,  31,  52,  53,  54,  55,  60,  61,
-            62,  63,  65,  67,  69,  71,  77,  79, 80,  81,  83,  84,  85,  86,  87,  88,
-            89,  91,  92,  93,  94,  95,  97,  99, 101, 103, 109, 111, 113, 115, 116, 117,
+          { 5,   13,  15,  20,  21,  22,  23,  29,  30,  31,  52,  53,  54,  55,  60,  61,
+            62,  63,  65,  67,  69,  71,  77,  79,  80,  81,  83,  84,  85,  86,  87,  88,
+            89,  91,  92,  93,  94,  95,  97,  99,  101, 103, 109, 111, 113, 115, 116, 117,
             118, 119, 120, 121, 123, 124, 125, 126, 127, 133, 135, 141, 143, 149, 151, 157,
             159, 181, 183, 189, 191, 195, 197, 199, 205, 207, 208, 209, 211, 212, 213, 214,
             215, 216, 217, 219, 220, 221, 222, 223, 225, 227, 229, 231, 237, 239, 240, 241,
             243, 244, 245, 246, 247, 248, 249, 251, 252, 253, 254, 255,
-            3,  12,  48, 192, 14, 56, 131, 224, 7,  28, 112, 193});
+            3,   12,  48,  192, 14,  56,  131, 224, 7,   28,  112, 193 });
 
         public Bitmap thin(Bitmap sourceImage)
         {
@@ -36,6 +48,7 @@ namespace GraphicEditor
             {
                 int changed = doAlgorithm(renderedImage);
                 if (changed == 0) continueAlgorithm = false;
+                Console.WriteLine(changed);
                 saveChangesToBitmap();
             }
 
@@ -66,7 +79,7 @@ namespace GraphicEditor
                 {
                     if (picture[i, j] == 1)
                     {
-                        if (isTwo(i, j) == true)
+                        if (twoList.Contains(getWeightOf(i, j)))
                         {
                             if (isFour(i, j) == true) picture[i, j] = 4;
                             else picture[i, j] = 2;
@@ -136,7 +149,7 @@ namespace GraphicEditor
         private bool isFour(int x, int y)
         {
             int weight = getWeightOf(x, y);
-            if (foursTable.Contains(weight)) return true;
+            if (fourList.Contains(weight)) return true;
             return false;
         }
 
