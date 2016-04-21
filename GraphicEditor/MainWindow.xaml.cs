@@ -37,8 +37,12 @@ namespace GraphicEditor
             bool? userClickedOK = openFileDialog.ShowDialog();
             if (userClickedOK == true)
             {
+                imageToCheck.Source = new BitmapImage(new Uri(openFileDialog.FileName));
                 image.Source = new BitmapImage(new Uri(openFileDialog.FileName));
-                image.Stretch = System.Windows.Media.Stretch.None;
+
+                imageToCheck.Stretch = System.Windows.Media.Stretch.Uniform;
+                image.Stretch = System.Windows.Media.Stretch.Uniform;
+
                 imageDisplayed = new Bitmap(openFileDialog.FileName);
                 dept = Image.GetPixelFormatSize(imageDisplayed.PixelFormat);
             }

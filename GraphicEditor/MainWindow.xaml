@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphicEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="650">
+        Title="MainWindow" Height="600" Width="850">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -21,17 +22,17 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            
+
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-         
+
 
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0">
-        <Button x:Name="openFile"  Content="Open file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Click="HandleButton_OpenFile"/>
-        <Button x:Name="saveFile"  Content="Save file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Margin="3" Width="62" Click="saveFile_Click"/>
+            <Button x:Name="openFile"  Content="Open file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Click="HandleButton_OpenFile"/>
+            <Button x:Name="saveFile"  Content="Save file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Margin="3" Width="62" Click="saveFile_Click"/>
             <Menu>
                 <MenuItem Header="Zad2">
                     <MenuItem Header="Stworz Histogramy" Click="MenuItem_Click"></MenuItem>
@@ -59,7 +60,7 @@
                     <MenuItem Name="Thinning" Header="Ścienianie" Click="Thinning_Click"></MenuItem>
                 </MenuItem>
             </Menu>
-        
+
         </StackPanel>
 
 
@@ -78,11 +79,12 @@
         <TextBox x:Name="BBox" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" Width="60" Margin="4"/>
 
         <Button x:Name="updatePixel" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="1" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="12,2,12,2" Click="HandleButton_Save"/>
-        <Image x:Name="image"  Grid.Row="0" Grid.RowSpan="10" Grid.Column="2" MouseUp="HandleImage_MouseUp"/>
+        <Image x:Name="imageToCheck"  Grid.Row="0" Grid.RowSpan="10" Grid.Column="2"/>
+        <Image x:Name="image"  Grid.Row="0" Grid.RowSpan="10" Grid.Column="3" MouseUp="HandleImage_MouseUp"/>
 
-            <TextBox  Margin="3" Text="wpisz X" x:Name="xPixel"  Grid.Row="7" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
+        <TextBox  Margin="3" Text="wpisz X" x:Name="xPixel"  Grid.Row="7" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
         <TextBox   Margin="3" Text="wpisz Y"  x:Name="yPixel" Grid.Row="8" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="60"  Grid.ColumnSpan="2"/>
         <Button Margin="3" x:Name="getPixel" Grid.Row="9" Grid.Column="0"  Grid.ColumnSpan="2" Content="Pobierz  &#xa;wartości  &#xa;pixeli" HorizontalAlignment="Center" VerticalAlignment="Top"  IsDefault="True"   Width="62" Click="getPixel_Click" />
-    
+
     </Grid>
 </Window>
