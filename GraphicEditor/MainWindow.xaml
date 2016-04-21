@@ -33,25 +33,30 @@
         <Button x:Name="openFile"  Content="Open file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Click="HandleButton_OpenFile"/>
         <Button x:Name="saveFile"  Content="Save file" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="6,2,6,2" IsDefault="True" Margin="3" Width="62" Click="saveFile_Click"/>
             <Menu>
-                <MenuItem Header="Zadanie2">
+                <MenuItem Header="Zad2">
                     <MenuItem Header="Stworz Histogramy" Click="MenuItem_Click"></MenuItem>
                     <MenuItem Header="Przyciemnij" Name="Przyciemnij" Click="Przyciemnij_Click" ></MenuItem>
                     <MenuItem Header="Rozjaśnij" Name="Rozjaśnij" Click="Rozjaśnij_Click" ></MenuItem>
                     <MenuItem Header="Rozciągnij histogram" Name="Rozciągnij_histogram" Click="Rozciągnij_histogram_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Zadanie3">
+                <MenuItem Header="Zad3">
                     <MenuItem Header="Odcienie szarości" Click="Odcienie_Szarosci_Click"></MenuItem>
                     <MenuItem Header="Binaryzacja ręczna" Click="Bin_Reczna_Click"></MenuItem>
                     <MenuItem Header="Binaryzacja automatyczna" Click="Bin_Automat_Click"></MenuItem>
                     <MenuItem Header="Binaryzacja lokalna" Click="Bin_Lok_Click"></MenuItem>
                 </MenuItem>
 
-                <MenuItem Header="Zadanie4">
+                <MenuItem Header="Zad4">
                     <MenuItem Name="Filtr_konwolucyjny" Header="Filtr_konwolucyjny"  Click="Filtr_konwolucyjny_Click"></MenuItem>
                     <MenuItem Name="Filtr_Kuwahara" Header="Filtr Kuwahara"  Click="Filtr_Kuwahara_Click"></MenuItem>
                     <MenuItem Name="FiltrM3x3" Header="Filtr Medianowy 3x3"  Click="FiltrM3x3_Click"></MenuItem>
                     <MenuItem Name="FiltrM5x5" Header="Filtr Medianowy 5x5"  Click="FiltrM5x5_Click"></MenuItem>
 
+                </MenuItem>
+            </Menu>
+            <Menu>
+                <MenuItem Header=" Projekt1">
+                    <MenuItem Name="Thinning" Header="Ścienianie" Click="Thinning_Click"></MenuItem>
                 </MenuItem>
             </Menu>
         

@@ -65,6 +65,7 @@
     <Compile Include="GetMask.xaml.cs">
       <DependentUpon>GetMask.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ThinningLibrary.cs" />
     <Compile Include="TwoValueWindow.xaml.cs">
       <DependentUpon>TwoValueWindow.xaml</DependentUpon>
     </Compile>

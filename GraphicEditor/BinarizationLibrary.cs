@@ -118,7 +118,6 @@ namespace GraphicEditor
             for (int y = 0; y < sourceImage.Height; y++)
             {
                 setFirstLineBoxBrightnessList(y, size, boxBrightness, sourceImage);
-                Console.WriteLine(y);
                 for (int x = 0; x < sourceImage.Width; x++)
                 {
                     Color pixel = sourceImage.GetPixel(x, y);

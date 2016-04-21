@@ -268,10 +268,10 @@ namespace GraphicEditor
             var mask = getMask._mask;
 
             FiltrLibrary lib = new FiltrLibrary();
-            Bitmap rezult = lib.FiltrKonwolucyjny(imageDisplayed,mask);
+            Bitmap result = lib.FiltrKonwolucyjny(imageDisplayed,mask);
 
             MessageBox.Show("Koniec");
-            image.Source = BitmapToImageSource(rezult);
+            image.Source = BitmapToImageSource(result);
 
 
         }
@@ -280,28 +280,39 @@ namespace GraphicEditor
         {
            
             FiltrLibrary lib = new FiltrLibrary();
-            Bitmap rezult = lib.FiltrKuwahara(imageDisplayed, null);
+            Bitmap result = lib.FiltrKuwahara(imageDisplayed, null);
 
             MessageBox.Show("Koniec");
-            image.Source = BitmapToImageSource(rezult);
+            image.Source = BitmapToImageSource(result);
         }
 
         private void FiltrM3x3_Click(object sender, RoutedEventArgs e)
         {
             FiltrLibrary lib = new FiltrLibrary();
-            Bitmap rezult = lib.FiltrMediana(imageDisplayed, null,1);
+            Bitmap result = lib.FiltrMediana(imageDisplayed, null,1);
 
             MessageBox.Show("Koniec");
-            image.Source = BitmapToImageSource(rezult);
+            image.Source = BitmapToImageSource(result);
         }
 
         private void FiltrM5x5_Click(object sender, RoutedEventArgs e)
         {
             FiltrLibrary lib = new FiltrLibrary();
-            Bitmap rezult = lib.FiltrMediana(imageDisplayed, null, 2);
+            Bitmap result = lib.FiltrMediana(imageDisplayed, null, 2);
 
             MessageBox.Show("Koniec");
-            image.Source = BitmapToImageSource(rezult);
+            image.Source = BitmapToImageSource(result);
+        }
+
+        private void Thinning_Click(object sender, RoutedEventArgs e)
+        {
+            //krok 1: binaryzacja
+            BinarizationLibrary bl = new BinarizationLibrary();
+            Bitmap bi = bl.TransformBinary(imageDisplayed, 125);
+
+            //krok2: algorytm ścieniania
+            ThinningLibrary thinning = new ThinningLibrary();
+            image.Source = BitmapToImageSource(thinning.thin(bi));
         }
     }
 }
