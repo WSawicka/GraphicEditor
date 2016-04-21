@@ -20,9 +20,9 @@ namespace GraphicEditor
             224, 225, 227, 231, 239, 240, 241, 243, 247, 248, 249,
             251, 252, 253, 254 });
         private List<int> fourList = new List<int>(new int[]
-          { 3,   12,  48,  192, 6,   24,  96,  129,
-            14,  56,  131, 224, 7,   28,  112, 193,
-            195, 135, 15,  30,  60,  120, 240, 225 });
+          { 3,   6,   12,  24,  48,  96,  192, 129,
+            7,   14,  28,  56,  112, 224, 193, 131,
+            15,  30,  60,  120, 240, 225, 195, 135});
         private List<int> neighb34567 = new List<int>(new int[]
           { 7,   14,  15,  28,  30,  31,  56,  60,  62,  63,  112,
             120, 124, 126, 131, 135, 143, 159, 191, 193, 195, 199,
@@ -44,7 +44,7 @@ namespace GraphicEditor
             picture = new int[sourceImage.Width, sourceImage.Height];
 
             bool continueAlgorithm = true;
-            while(continueAlgorithm == true)
+            while (continueAlgorithm == true)
             {
                 int changed = doAlgorithm(renderedImage);
                 if (changed == 0) continueAlgorithm = false;
@@ -99,17 +99,30 @@ namespace GraphicEditor
                         picture[i, j] = 0;
                         ++changed;
                     }
-                    else if (picture[i, j] == 2 && deletionList.Contains(getWeightOf(i, j)))
-                    {
-                        picture[i, j] = 0;
-                        ++changed;
-                    }
-                    else if (picture[i, j] == 3 && deletionList.Contains(getWeightOf(i, j)))
-                    {
-                        picture[i, j] = 0;
-                        ++changed;
-                    }
+                }
+            }
 
+            for (int j = 1; j < image.Height - 1; j++)
+            {
+                for (int i = 1; i < image.Width - 1; i++)
+                {
+                    if (picture[i, j] == 2 && deletionList.Contains(getWeightOf(i, j)))
+                    {
+                        picture[i, j] = 0;
+                        ++changed;
+                    }
+                }
+            }
+
+            for (int j = 1; j < image.Height - 1; j++)
+            {
+                for (int i = 1; i < image.Width - 1; i++)
+                {
+                    if (picture[i, j] == 3 && deletionList.Contains(getWeightOf(i, j)))
+                    {
+                        picture[i, j] = 0;
+                        ++changed;
+                    }
                 }
             }
 
@@ -122,19 +135,6 @@ namespace GraphicEditor
                 }
             }
             return changed;
-        }
-
-        private bool isTwo(int x, int y)
-        {
-            if (picture[x - 1, y - 1] == 0) return true;
-            if (picture[x - 1, y] == 0) return true;
-            if (picture[x, y - 1] == 0) return true;
-            if (picture[x + 1, y + 1] == 0) return true;
-            if (picture[x + 1, y] == 0) return true;
-            if (picture[x, y + 1] == 0) return true;
-            if (picture[x + 1, y - 1] == 0) return true;
-            if (picture[x - 1, y + 1] == 0) return true;
-            return false;
         }
 
         private bool isThree(int x, int y)
@@ -160,7 +160,7 @@ namespace GraphicEditor
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if(picture[x + i - 1, y + j - 1] != 0) weight += table[i, j];
+                    if (picture[x + i - 1, y + j - 1] != 0) weight += table[i, j];
                 }
             }
             return weight;
