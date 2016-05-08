@@ -58,6 +58,7 @@
             <Menu>
                 <MenuItem Header=" Projekt1">
                     <MenuItem Name="Thinning" Header="Ścienianie" Click="Thinning_Click"></MenuItem>
+                    <MenuItem Name="PunktyCharakterystyczne" Header="Wykryj Punkty Charakterystyczne" Click="PunktyCharakterystyczne_Click"></MenuItem>
                 </MenuItem>
             </Menu>
 

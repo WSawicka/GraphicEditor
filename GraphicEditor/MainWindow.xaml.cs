@@ -318,5 +318,12 @@ namespace GraphicEditor
             ThinningLibrary thinning = new ThinningLibrary();
             image.Source = BitmapToImageSource(thinning.thin(bi));
         }
+
+        private void PunktyCharakterystyczne_Click(object sender, RoutedEventArgs e)
+        {
+            MunucjeLibrary lib = new MunucjeLibrary();
+            image.Source = BitmapToImageSource( lib.ZnajdzZakonczenia(imageDisplayed));
+            MessageBox.Show("Koniec");
+        }
     }
 }
