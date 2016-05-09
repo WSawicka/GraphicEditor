@@ -21,12 +21,11 @@ namespace GraphicEditor
             {
                 for (int j = 4; j < renderedImage.Height-4; j++)
                 {
-                    if(i==7)
-                    {
-                        var sfd = "";
-                    }
-
+                   
                     int przeciecia = 0;
+
+                    Color colorPunktu = renderedImage.GetPixel(i , j );
+
 
                     for (int u = -2; u <= 2; u++)
                     {
@@ -48,7 +47,7 @@ namespace GraphicEditor
 
                             //Color color2 = renderedImage.GetPixel((i + u +1 ) % 8 , ( j + k +1 )  % 8 );
 
-                            if(color.R == 0 )
+                            if(color.R == 0 && colorPunktu.R==0)
                             {
                                 przeciecia++;
                             }
@@ -75,13 +74,15 @@ namespace GraphicEditor
                                 continue;
                             }
 
+                           
+
                             Color color = renderedImage.GetPixel(i + u, j + k);
 
                             ///Color color = renderedImage.GetPixel(i + u, j + k);
 
                             //Color color2 = renderedImage.GetPixel((i + u + 1) % 8, (j + k + 1) % 8);
 
-                            if (color.R == 0)
+                            if (color.R == 0 && colorPunktu.R == 0)
                             {
                                 przeciecia2++;
                             }
@@ -140,10 +141,10 @@ namespace GraphicEditor
 
             using (Graphics grf = Graphics.FromImage(image))
             {
-                using (Brush brsh = new SolidBrush(color))
-                {
-                    grf.FillEllipse(brsh, x, y, 2, 2);
-                }
+                
+                    Pen pen = new Pen(color);
+                    grf.DrawEllipse(pen, x-2, y-2, 3, 3);
+                
             }
         }
     }
