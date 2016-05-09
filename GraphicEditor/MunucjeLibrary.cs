@@ -93,9 +93,16 @@ namespace GraphicEditor
 
 
 
-                    if (przeciecia == 1 && przeciecia2 == 1 && DodatkowaMaska(renderedImage, i, j))
+                    //if (przeciecia == 1 && przeciecia2 == 1 && DodatkowaMaska(renderedImage, i, j))
+                    //{
+                    //    if( !SprawdzCzyZakonczenieObrazka(renderedImage,i, j))
+                    //    map[i, j] = 1; /// zakonczenie
+                    //}
+
+                    if (przeciecia == 1 && przeciecia2 == 1 )
                     {
-                        map[i, j] = 1; /// zakonczenie
+                        if (!SprawdzCzyZakonczenieObrazka(renderedImage, i, j))
+                            map[i, j] = 1; /// zakonczenie
                     }
                     //if (przeciecia == 1 && przeciecia2 == 1)
                     //{
@@ -115,6 +122,32 @@ namespace GraphicEditor
             Zaznaczpunkty(renderedImage, map);
 
             return renderedImage;
+
+        }
+
+        private bool SprawdzCzyZakonczenieObrazka(Bitmap renderedImage, int x, int y)
+        {
+            bool left= true;
+            bool right= true;
+
+            for (int  i= 0; i < x-3 ; i++)
+            {
+                Color punkt = renderedImage.GetPixel(i,y);
+                if (punkt.R == 0)
+                    left = false;
+                  
+            }
+
+            for (int i = x+4; i < renderedImage.Width; i++)
+            {
+                Color punkt = renderedImage.GetPixel(i, y);
+                if (punkt.R == 0)
+                    right = false;
+            }
+
+            if (left || right)
+                return true;
+            return false;
 
         }
 
@@ -208,7 +241,40 @@ namespace GraphicEditor
 
         public bool DodatkowaMaska(Bitmap renderedImage, int x, int y)
         {
-      
+
+            Color l = renderedImage.GetPixel(x+1, y+1);
+            Color l2 = renderedImage.GetPixel(x-1, y-1);
+            Color l3 = renderedImage.GetPixel(x+1, y-1);
+            Color l4 = renderedImage.GetPixel(x-1, y+1);
+
+            Color l5 = renderedImage.GetPixel(x, y+1);
+            Color l6= renderedImage.GetPixel(x, y-1);
+            Color l7 = renderedImage.GetPixel(x+1, y);
+            Color l8 = renderedImage.GetPixel(x-1, y);
+
+
+            List<Color> list = new List<Color>();
+            list.Add(l);
+            list.Add(l2);
+            list.Add(l3);
+            list.Add(l4);
+            list.Add(l5);
+            list.Add(l6);
+            list.Add(l7);
+            list.Add(l8);
+
+            int czarnyPunkt = 0;
+            foreach (var item in list)
+            {
+                if (item.R == 0)
+                    czarnyPunkt++;
+            }
+
+            if (czarnyPunkt == 1)
+                return true;
+            return false;
+
+
             int przeciecia = 0;
 
             Color colorPunktu = renderedImage.GetPixel(x, y);
